@@ -1,6 +1,8 @@
 # Bangers
 A hierarchical state management solution!
 
+First things first: I only kind of know what I'm doing.
+
 Bangers steals many patterns from React/Redux and it's implementation at Procore. Ideas for making Bangers is based around some ideas for composition, some ideas from prototypal inheritance, but mostly it's built as a solution to several problems a hierarchical state may be able to solve:
 
  - State schema is often archaic and cumbersome, and split between several files.
@@ -28,7 +30,7 @@ Bangers in it's default interface will provide a non-scoped callback structure i
 
 Let a Bangers Module be a thing you don't have to care about the structure of, ever. Because that would be silly if you had to care about it. So basically, as far as you're concerned, let it be a function:
 
-(Props) => Instance
+`(Props) => Instance`
 
 Each instance of a Bangers module has it's own immutable state, and can call the module's parent's state reducers. Can we make this work on the state as a whole, somehow? AKA:
 ```
@@ -44,12 +46,18 @@ This means the application as a whole has immutable state, and that any action o
 
 ### Advantages:
 The main advantage I think this has over pure OO is the Extreme Cousin case.
-Let's say A and B are distant cousins with common ancestor C, but we want A and B to communicate. The Redux way is to allow actions to be dispatched to one another with a global action/reducer paradigm. Which is dope I guess. But if I want them to  share the same state, I have to go ALL the way to common ancestor C, or introduce 
+Let's say A and B are distant cousins with common ancestor C, but we want A and B to communicate. The Redux way is to allow actions to be dispatched to one another with a global action/reducer paradigm. Which is dope I guess. But if I want them to  share the same state, I have to go ALL the way to common ancestor C, or do some weird weird statewise shenanigans. 
 
 But not in Bangers!
 
 ```
-
+   __ G ___ H ___      _________ A
+  |                            /
+C-|               [...]       /
+  |__ F ___ I ___      _____ / _ B
+                            /   /
+                           /   /
+                          D___/
 ```
 
 This is allowed because inheritance is not a classic IS A relationship, nor should it be. 
